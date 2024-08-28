@@ -69,7 +69,7 @@ export default function Home() {
           {/* Profile pic */}
           <div className="h-full w-full z-0">
             <Image
-              src="/pfp.jpg"
+              src="/pfp.JPG"
               alt="Profile picture"
               objectFit="cover"
               fill
@@ -128,7 +128,7 @@ export default function Home() {
         {/* Profile pic */}
         <div className="relative aspect-4/5 md:h-[12em] lg:h-[16em] flex-shrink-0">
           <Image
-            src="/pfp.jpg"
+            src="/pfp.JPG"
             alt="Profile picture"
             layout="fill"
             className={cn(
