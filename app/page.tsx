@@ -9,6 +9,7 @@ import { useState } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { IoMenuOutline } from "react-icons/io5";
 import { MdEmail, MdOutlineSpaceDashboard } from "react-icons/md";
+import ProfilePic from "@/assets/pfp.jpg";
 
 export default function Home() {
   const links = [
@@ -69,7 +70,7 @@ export default function Home() {
           {/* Profile pic */}
           <div className="h-full w-full z-0">
             <Image
-              src="/pfp.JPG"
+              src={ProfilePic}
               alt="Profile picture"
               objectFit="cover"
               fill
@@ -128,7 +129,7 @@ export default function Home() {
         {/* Profile pic */}
         <div className="relative aspect-4/5 md:h-[12em] lg:h-[16em] flex-shrink-0">
           <Image
-            src="/pfp.JPG"
+            src={ProfilePic}
             alt="Profile picture"
             layout="fill"
             className={cn(
