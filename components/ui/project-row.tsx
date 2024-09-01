@@ -35,7 +35,7 @@ export default function ProjectRow({
           <div className="flex flex-row gap-4 justify-between items-baseline w-full">
             {projectInfo.projectLink ? (
               <Link
-                className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg transition ease-in-out hover:scale-110"
+                className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg transition ease-in-out hover:scale-110 hover:text-blue-500 dark:hover:text-blue-400"
                 href={projectInfo.projectLink || ""}
                 target="_blank"
                 rel="noreferrer noopener"
