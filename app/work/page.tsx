@@ -4,6 +4,7 @@ import RampLogo from "@/assets/ramp_logo.webp";
 import HarvardSeasLogo from "@/assets/harvard_seas.jpg";
 import NeoScholarsLogo from "@/assets/neo.jpeg";
 import CokeScholarsLogo from "@/assets/cokescholars.png";
+import ZFellowsLogo from "@/assets/zfellows.jpeg";
 import WorkRow from "@/components/ui/work-row";
 import { formatFromMMMYYYY } from "@/lib/utils";
 import { Accordion } from "@/components/ui/accordion";
@@ -16,7 +17,6 @@ export default function WorkPage() {
       companyLogoUrl: RampLogo,
       start_date: formatFromMMMYYYY("May 2024"),
       end_date: formatFromMMMYYYY("Aug 2024"),
-      // description: "Built AI on Outbound Automation Team",
       listDescription: [
         "Developed agentic AI framework to help account executives prepare for meetings, saving 450 hours of work across the company weekly.",
         "Created models to more effectively capture and enrich prospects, contributing to 100% increase in closed wins.",
@@ -50,6 +50,10 @@ export default function WorkPage() {
   ];
 
   const scholarships: WorkInfo[] = [
+    {
+      role: "Z Fellow",
+      companyLogoUrl: ZFellowsLogo,
+    },
     {
       role: "2024 Neo Scholar Finalist",
       companyLogoUrl: NeoScholarsLogo,
