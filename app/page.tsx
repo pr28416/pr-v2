@@ -7,7 +7,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
-import { IoMenuOutline } from "react-icons/io5";
 import { MdEmail, MdOutlineSpaceDashboard } from "react-icons/md";
 import ProfilePic from "@/assets/pfp.jpg";
 
