@@ -8,9 +8,43 @@ import CityOfBoston from "@/assets/cityofboston.png";
 import OkaySo from "@/assets/okayso.jpeg";
 import ProjectRow from "@/components/ui/project-row";
 import { Accordion } from "@radix-ui/react-accordion";
+import { AlignHorizontalJustifyStart, CloudLightning } from "lucide-react";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
+    {
+      projectName: "Lightspeed",
+      customLogo: (
+        <CloudLightning className="text-blue-500 dark:text-blue-400 text-4xl w-full h-full p-2 bg-blue-100 dark:bg-blue-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+      ),
+      projectCaption:
+        "AI platform that helps political organizations create winning ads faster.",
+      projectLink: "https://lightspeedads.netlify.app/",
+      description:
+        "I'm currently co-building Lightspeed, a single AI workflow for political media monitoring, PR, & advertising teams. Lightspeed allows political organizations to make smarter political ads faster and cheaper through real-time insights, social listening, AI ad creation, targeted messaging, and more.",
+      tags: ["Next.js", "Python", "GPT", "Perplexity", "Supabase"],
+    },
+    {
+      projectName: "Rally",
+      customLogo: (
+        <AlignHorizontalJustifyStart className="text-sky-500 dark:text-sky-400 text-4xl w-full h-full p-2 bg-sky-200 dark:bg-sky-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+      ),
+      projectCaption:
+        "AI platform that creates personalized political ads with AI-driven candidate personas.",
+      projectLink: "https://devpost.com/software/rally-8sxi2t",
+      description:
+        "In September 2024, I co-built Rally AI, an AI platform that generates personalized political ads featuring candidate personas. Rally scrapes local news and economic data using Firecrawl and Perplexity, then stores curated insights in a Supabase database. GPT4o-mini crafts speeches in the politician's style, while Cartesia.ai’s Sonic text-to-speech creates voice narration. Pexels provides B-roll footage, and SyncLabs lip-syncs the narration to existing footage of the candidate. The final ad integrates stock footage and voice to match relevant voter concerns. Rally AI won 2nd Place Overall and Best Design at PennApps 2024.",
+      tags: [
+        "Next.js",
+        "Python",
+        "Firecrawl",
+        "Perplexity",
+        "Supabase",
+        "Cartesia.ai",
+        "SyncLabs",
+        "Pexels",
+      ],
+    },
     {
       projectName: "Classiq.red",
       projectLogoUrl: ClassiqLogo,

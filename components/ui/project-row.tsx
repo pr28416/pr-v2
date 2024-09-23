@@ -20,14 +20,17 @@ export default function ProjectRow({
     >
       <div className="flex flex-row gap-4 items-center">
         {/* Image container */}
-        {projectInfo.projectLogoUrl && (
+        {(projectInfo.projectLogoUrl || projectInfo.customLogo) && (
           <div className="relative h-12 aspect-square">
-            <Image
-              src={projectInfo.projectLogoUrl}
-              alt="Company logo"
-              layout="fill"
-              className="rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out bg-rose-200 dark:bg-rose-950"
-            />
+            {projectInfo.customLogo ||
+              (projectInfo.projectLogoUrl && (
+                <Image
+                  src={projectInfo.projectLogoUrl}
+                  alt="Company logo"
+                  layout="fill"
+                  className="rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out bg-rose-200 dark:bg-rose-950"
+                />
+              ))}
           </div>
         )}
         {/* Company info */}

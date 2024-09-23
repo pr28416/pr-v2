@@ -19,4 +19,5 @@ export type ProjectInfo = {
   listDescription?: string[];
   tags?: string[];
   projectLink?: string;
+  customLogo?: React.ReactNode;
 };
