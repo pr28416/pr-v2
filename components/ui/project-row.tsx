@@ -4,6 +4,7 @@ import Image from "next/image";
 import { ProjectInfo } from "@/lib/types";
 import { AccordionContent } from "./accordion";
 import { AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import Link from "next/link";
 
 export default function ProjectRow({
@@ -24,12 +25,14 @@ export default function ProjectRow({
           <div className="relative h-12 aspect-square">
             {projectInfo.customLogo ||
               (projectInfo.projectLogoUrl && (
-                <Image
-                  src={projectInfo.projectLogoUrl}
-                  alt="Company logo"
-                  layout="fill"
-                  className="rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out bg-rose-200 dark:bg-rose-950"
-                />
+                <Link href={projectInfo.projectLink || ""} target="_blank">
+                  <Image
+                    src={projectInfo.projectLogoUrl}
+                    alt="Company logo"
+                    layout="fill"
+                    className="rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out bg-rose-200 dark:bg-rose-950"
+                  />
+                </Link>
               ))}
           </div>
         )}

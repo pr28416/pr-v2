@@ -52,7 +52,7 @@ export default function Navbar({ page }: { page: string }) {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
-      <NavbarDropdown>
+      <NavbarDropdown asChild>
         <Button
           variant={"ghost"}
           size={"icon"}

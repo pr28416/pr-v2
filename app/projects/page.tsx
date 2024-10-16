@@ -8,14 +8,50 @@ import CityOfBoston from "@/assets/cityofboston.png";
 import OkaySo from "@/assets/okayso.jpeg";
 import ProjectRow from "@/components/ui/project-row";
 import { Accordion } from "@radix-ui/react-accordion";
-import { AlignHorizontalJustifyStart, CloudLightning } from "lucide-react";
+import {
+  AlignHorizontalJustifyStart,
+  CloudLightning,
+  Hospital,
+} from "lucide-react";
+import Link from "next/link";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
     {
+      projectName: "Aria",
+      customLogo: (
+        <Link
+          href="https://devpost.com/software/aria-sc10g2"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <Hospital className="text-lime-600 dark:text-lime-400 text-4xl w-full h-full p-2 bg-lime-100 dark:bg-lime-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        </Link>
+      ),
+      projectCaption: "The world's first fully multimodal AI doctor.",
+      projectLink: "https://devpost.com/software/aria-sc10g2",
+      description:
+        "I co-developed Aria, the world's first fully-automated medical expert, capable of diagnosing patients through natural conversations, images, and health history. Built on a custom multimodal agentic AI framework, Aria processes live voice inputs, analyzes images of symptoms, and integrates health records to deliver reliable medical advice. Sourced from trusted databases like Medline and PubMed, Aria generates personalized health reports and refers patients to local specialists when needed.",
+      tags: [
+        "Next.js",
+        "Python",
+        "Firecrawl",
+        "Supabase",
+        "Llama",
+        "Anam API",
+        "Mixtral",
+      ],
+    },
+    {
       projectName: "Lightspeed",
       customLogo: (
-        <CloudLightning className="text-blue-500 dark:text-blue-400 text-4xl w-full h-full p-2 bg-blue-100 dark:bg-blue-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        <Link
+          href="https://lightspeedads.netlify.app/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <CloudLightning className="text-blue-500 dark:text-blue-400 text-4xl w-full h-full p-2 bg-blue-100 dark:bg-blue-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        </Link>
       ),
       projectCaption:
         "AI platform that helps political organizations create winning ads faster.",
@@ -27,7 +63,13 @@ export default function ProjectsPage() {
     {
       projectName: "Rally",
       customLogo: (
-        <AlignHorizontalJustifyStart className="text-sky-500 dark:text-sky-400 text-4xl w-full h-full p-2 bg-sky-200 dark:bg-sky-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        <Link
+          href="https://devpost.com/software/rally-8sxi2t"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <AlignHorizontalJustifyStart className="text-sky-500 dark:text-sky-400 text-4xl w-full h-full p-2 bg-sky-200 dark:bg-sky-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        </Link>
       ),
       projectCaption:
         "AI platform that creates personalized political ads with AI-driven candidate personas.",
