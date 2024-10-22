@@ -55,7 +55,7 @@ export default function WorkPage() {
       companyLogoUrl: ZFellowsLogo,
     },
     {
-      role: "2024 Neo Scholar Finalist",
+      role: "2024 Neo Scholar",
       companyLogoUrl: NeoScholarsLogo,
     },
     {
