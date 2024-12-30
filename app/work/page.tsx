@@ -4,6 +4,8 @@ import RampLogo from "@/assets/ramp_logo.webp";
 import HarvardSeasLogo from "@/assets/harvard_seas.jpg";
 import NeoScholarsLogo from "@/assets/neo.jpeg";
 import CokeScholarsLogo from "@/assets/cokescholars.png";
+import CoframeLogo from "@/assets/coframe.jpeg";
+import HumanCapitalLogo from "@/assets/humancapital.jpeg";
 import ZFellowsLogo from "@/assets/zfellows.jpeg";
 import WorkRow from "@/components/ui/work-row";
 import { formatFromMMMYYYY } from "@/lib/utils";
@@ -11,6 +13,23 @@ import { Accordion } from "@/components/ui/accordion";
 
 export default function WorkPage() {
   const workInfo: WorkInfo[] = [
+    {
+      role: "Software Engineer Intern",
+      companyName: "Coframe",
+      companyLogoUrl: CoframeLogo,
+      start_date: formatFromMMMYYYY("Dec 2024"),
+      end_date: formatFromMMMYYYY("Feb 2025"),
+      listDescription: ["Building AI agents that optimize websites."],
+      tags: ["Python", "LLMs", "Next.js", "TypeScript"],
+    },
+    {
+      role: "Venture Fellow",
+      companyName: "Human Capital",
+      companyLogoUrl: HumanCapitalLogo,
+      start_date: formatFromMMMYYYY("Aug 2024"),
+      end_date: formatFromMMMYYYY("Dec 2024"),
+      listDescription: ["Sourcing high velocity builders & entrepreneurs"],
+    },
     {
       role: "Software Engineer Intern",
       companyName: "Ramp",
@@ -55,7 +74,7 @@ export default function WorkPage() {
       companyLogoUrl: ZFellowsLogo,
     },
     {
-      role: "2024 Neo Scholar",
+      role: "2025 Neo Scholar",
       companyLogoUrl: NeoScholarsLogo,
     },
     {
