@@ -12,11 +12,26 @@ import {
   AlignHorizontalJustifyStart,
   CloudLightning,
   Hospital,
+  Network,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
+    {
+      projectName: "LiRA",
+      customLogo: (
+        <Link href="/lira_paper.pdf" target="_blank" rel="noreferrer noopener">
+          <Network className="text-purple-600 dark:text-purple-400 text-4xl w-full h-full p-2 bg-purple-100 dark:bg-purple-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        </Link>
+      ),
+      projectCaption:
+        "AI literature review assistant for exploring and mapping research papers.",
+      projectLink: "/lira_paper.pdf",
+      description:
+        "The literature review process is often inefficient and overwhelming due to the volume of dense, irrelevant information researchers must sift through. Traditional tools fail to support direct interaction with sources, hindering the identification of relevant papers and the synthesis of meaningful insights. This paper introduces LiRA, an AI-driven system that combines an intuitive, interactive concept mapping interface with advanced AI-powered tools for summarization, quality assessment, and literature exploration. LiRA is the first unified interface that integrates dynamic concept mapping with AI insights, enabling researchers to efficiently explore, organize, and synthesize information while uncovering key relationships and research opportunities. To evaluate its impact, we investigate: (1) how a unified AI and mind map interface improves efficiency; (2) how well it helps researchers identify insights and relationships; and (3) user confidence in the system's reliability. LiRA aims to transform literature reviews through a seamless blend of interactivity and AI acceleration.",
+      tags: ["Next.js", "Python", "GPT", "Llama"],
+    },
     {
       projectName: "Aria",
       customLogo: (
