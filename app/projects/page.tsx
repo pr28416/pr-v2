@@ -13,11 +13,37 @@ import {
   CloudLightning,
   Hospital,
   Network,
+  Wheat,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
+    {
+      projectName: "Omniscient AI",
+      customLogo: (
+        <Link
+          href="https://youtu.be/b_iaNQ20SlM"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <Wheat className="text-rose-600 dark:text-rose-400 text-4xl w-full h-full p-2 bg-rose-100 dark:bg-rose-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
+        </Link>
+      ),
+      projectCaption: "AI web search engine.",
+      projectLink: "https://youtu.be/b_iaNQ20SlM",
+      description:
+        "Omniscient AI is a powerful AI search engine that combines multiple LLMs and APIs for intelligent web search. Key features include smart query optimization using Cerebras (llama-3.1-8b), comprehensive web search via Brave Search API with custom webscraping, intelligent image search powered by Cerebras and Groq vision models, detailed content summaries using llama-3.3-70b, and AI-powered synthesis through OpenAI. The system supports follow-up questions, session management, real-time updates, and clear source attribution while efficiently processing multiple search results in parallel.",
+      tags: [
+        "Next.js",
+        "Cerebras",
+        "Groq",
+        "GPT",
+        "Brave Search API",
+        "Llama",
+        "Llama Vision",
+      ],
+    },
     {
       projectName: "LiRA",
       customLogo: (
