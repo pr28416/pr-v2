@@ -1,4 +1,4 @@
-import { GoogleAnalytics } from "@next/third-parties/google";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import {
   Poppins,
@@ -63,6 +63,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <GoogleAnalytics gaId="G-FVRFW9M3LZ" />
+      <GoogleTagManager gtmId="GTM-PDJTJ6XV" />
       <body className={fontFamily.className}>
         <ThemeProvider
           attribute="class"
@@ -73,7 +75,6 @@ export default function RootLayout({
           {children}
         </ThemeProvider>
       </body>
-      <GoogleAnalytics gaId="G-FVRFW9M3LZ" />
     </html>
   );
 }
