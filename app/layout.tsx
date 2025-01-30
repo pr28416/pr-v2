@@ -36,6 +36,7 @@ import {
 } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
+import { Analytics } from "@vercel/analytics/react";
 
 // const fontFamily = Poppins({ subsets: ["latin"], weight: "600" });
 // const fontFamily = Kanit({ subsets: ["latin"], weight: "500" });
@@ -66,6 +67,7 @@ export default function RootLayout({
       <GoogleAnalytics gaId="G-FVRFW9M3LZ" />
       <GoogleTagManager gtmId="GTM-PDJTJ6XV" />
       <body className={fontFamily.className}>
+        <Analytics />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

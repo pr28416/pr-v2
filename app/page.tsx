@@ -9,6 +9,7 @@ import { useState } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { MdEmail, MdOutlineSpaceDashboard } from "react-icons/md";
 import ProfilePic from "@/assets/pfp.jpg";
+import { sendGTMEvent } from "@next/third-parties/google";
 
 export default function Home() {
   const links = [
@@ -135,7 +136,10 @@ export default function Home() {
               "h-full rounded-xl shadow-xl transition ease-in-out hover:scale-110 duration-500 hover:cursor-pointer",
               imageEffect && "animate-wiggle"
             )}
-            onClick={() => setImageEffect(true)}
+            onClick={() => {
+              setImageEffect(true);
+              sendGTMEvent({ event: "profile_pic_clicked" });
+            }}
             onAnimationEnd={() => setImageEffect(false)}
           />
         </div>
