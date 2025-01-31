@@ -9,9 +9,13 @@ import { useState } from "react";
 import { FaGithub, FaLinkedinIn } from "react-icons/fa";
 import { MdEmail, MdOutlineSpaceDashboard } from "react-icons/md";
 import ProfilePic from "@/assets/pfp.jpg";
-import { sendGTMEvent } from "@next/third-parties/google";
+import { useSession } from "@/lib/sessionContext";
+import { EventType } from "@/lib/types";
 
 export default function Home() {
+  const { submitEvent } = useSession();
+  const [imageEffect, setImageEffect] = useState<boolean>(false);
+
   const links = [
     { text: "work", link: "/work" },
     { text: "projects", link: "/projects" },
@@ -23,18 +27,43 @@ export default function Home() {
 
   const mobileSocialIconStyle = "text-white";
 
+  const handleLinkClick = (text: string, link: string) => {
+    if (link === "/PR_Resume.pdf") {
+      submitEvent(EventType.ResumeDownloaded, {
+        source: "navigation",
+      });
+    }
+  };
+
+  const handleSocialClick = (platform: string, link: string) => {
+    switch (platform) {
+      case "github":
+        submitEvent(EventType.GithubClicked, { link });
+        break;
+      case "linkedin":
+        submitEvent(EventType.LinkedInClicked, { link });
+        break;
+      case "email":
+        submitEvent(EventType.EmailClicked, { link });
+        break;
+    }
+  };
+
   const socials = [
     {
       glyph: <FaGithub className={socialButtonStyle} />,
       link: "https://github.com/pr28416",
+      platform: "github",
     },
     {
       glyph: <FaLinkedinIn className={socialButtonStyle} />,
       link: "https://www.linkedin.com/in/pranav-ramesh1/",
+      platform: "linkedin",
     },
     {
       glyph: <MdEmail className={socialButtonStyle} />,
       link: "mailto:pranav.ramesh1@gmail.com",
+      platform: "email",
     },
   ];
 
@@ -44,22 +73,23 @@ export default function Home() {
         <FaGithub fontSize="1.75em" className={cn(mobileSocialIconStyle)} />
       ),
       link: "https://github.com/pr28416",
+      platform: "github",
     },
     {
       glyph: (
         <FaLinkedinIn fontSize="1.5em" className={cn(mobileSocialIconStyle)} />
       ),
       link: "https://www.linkedin.com/in/pranav-ramesh1/",
+      platform: "linkedin",
     },
     {
       glyph: (
         <MdEmail fontSize="1.75em" className={cn(mobileSocialIconStyle)} />
       ),
       link: "mailto:pranav.ramesh1@gmail.com",
+      platform: "email",
     },
   ];
-
-  const [imageEffect, setImageEffect] = useState<boolean>(false);
 
   return (
     <main className="flex min-h-screen flex-col justify-center items-center p-4 sm:p-24 bg-slate-100 dark:bg-midnight">
@@ -74,6 +104,10 @@ export default function Home() {
               alt="Profile picture"
               objectFit="cover"
               fill
+              onClick={() => {
+                setImageEffect(true);
+                submitEvent(EventType.ProfilePicClicked);
+              }}
             />
           </div>
           {/* Bottom banner */}
@@ -97,7 +131,6 @@ export default function Home() {
                   variant={"ghost"}
                   className="bg-moretransparent rounded-full hover:bg-semiopaque transition ease-in-out hover:scale-110 hover:-rotate-12 focus:outline-none ring-0 outline-none border-none focus:ring-0 focus:ring-offset-0 ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0"
                 >
-                  {/* <IoMenuOutline fontSize={"8em"} className="text-white" /> */}
                   <MdOutlineSpaceDashboard
                     fontSize="1.75em"
                     className="text-white focus:outline-none ring-0 outline-none border-none focus:ring-0 focus:ring-offset-0 ring-offset-0"
@@ -112,6 +145,9 @@ export default function Home() {
                     variant={"ghost"}
                     className="bg-moretransparent rounded-full hover:bg-semiopaque transition ease-in-out hover:scale-110 hover:-rotate-12 focus-visible:ring-0 focus-visible:ring-offset-0"
                     asChild
+                    onClick={() =>
+                      handleSocialClick(social.platform, social.link)
+                    }
                   >
                     <Link href={social.link}>{social.glyph}</Link>
                   </Button>
@@ -138,7 +174,7 @@ export default function Home() {
             )}
             onClick={() => {
               setImageEffect(true);
-              sendGTMEvent({ event: "profile_pic_clicked" });
+              submitEvent(EventType.ProfilePicClicked);
             }}
             onAnimationEnd={() => setImageEffect(false)}
           />
@@ -162,6 +198,12 @@ export default function Home() {
                 rel="noreferrer noopener"
                 className="font-bold"
                 href="https://ramp.com"
+                onClick={() => {
+                  submitEvent(EventType.ExternalLinkClicked, {
+                    destination: "ramp.com",
+                    context: "company_mention",
+                  });
+                }}
               >
                 Ramp
               </Link>
@@ -174,6 +216,7 @@ export default function Home() {
                 <Link
                   key={idx}
                   href={link.link}
+                  onClick={() => handleLinkClick(link.text, link.link)}
                   className="text-slate-500 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-800 px-3 py-2 rounded-lg transition font-medium hover:scale-105"
                 >
                   {link.text}
@@ -187,6 +230,9 @@ export default function Home() {
                   rel="noreferrer noopener"
                   key={idx}
                   href={social.link}
+                  onClick={() =>
+                    handleSocialClick(social.platform, social.link)
+                  }
                 >
                   {social.glyph}
                 </Link>

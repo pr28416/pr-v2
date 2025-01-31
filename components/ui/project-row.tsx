@@ -4,8 +4,9 @@ import Image from "next/image";
 import { ProjectInfo } from "@/lib/types";
 import { AccordionContent } from "./accordion";
 import { AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "./hover-card";
 import Link from "next/link";
+import { useSession } from "@/lib/sessionContext";
+import { EventType } from "@/lib/types";
 
 export default function ProjectRow({
   idx,
@@ -14,10 +15,40 @@ export default function ProjectRow({
   idx: number;
   projectInfo: ProjectInfo;
 }) {
+  const { submitEvent } = useSession();
+
+  const handleProjectClick = (type: "logo" | "link") => {
+    const metadata = {
+      project_name: projectInfo.projectName,
+    };
+
+    switch (type) {
+      case "logo":
+        submitEvent(EventType.ProjectLogoClicked, metadata);
+        break;
+      case "link":
+        submitEvent(EventType.ProjectLinkClicked, metadata);
+        break;
+      default:
+        break;
+    }
+  };
+
   return (
     <AccordionItem
       value={"project-" + idx.toString()}
       className="flex flex-col gap-4"
+      onFocus={(e) => {
+        // Check if the accordion item is being expanded
+        const isExpanded =
+          (e.target as HTMLElement).getAttribute("data-state") === "open";
+        if (isExpanded) {
+          submitEvent(EventType.ProjectExpanded, {
+            project_name: projectInfo.projectName,
+            project_link: projectInfo.projectLink || "",
+          });
+        }
+      }}
     >
       <div className="flex flex-row gap-4 items-center">
         {/* Image container */}
@@ -25,7 +56,11 @@ export default function ProjectRow({
           <div className="relative h-12 aspect-square">
             {projectInfo.customLogo ||
               (projectInfo.projectLogoUrl && (
-                <Link href={projectInfo.projectLink || ""} target="_blank">
+                <Link
+                  href={projectInfo.projectLink || ""}
+                  target="_blank"
+                  onClick={() => handleProjectClick("logo")}
+                >
                   <Image
                     src={projectInfo.projectLogoUrl}
                     alt="Company logo"
@@ -45,7 +80,10 @@ export default function ProjectRow({
                 href={projectInfo.projectLink || ""}
                 target="_blank"
                 rel="noreferrer noopener"
-                onClick={(e) => e.stopPropagation()}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleProjectClick("link");
+                }}
               >
                 {projectInfo.projectName}
               </Link>

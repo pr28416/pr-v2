@@ -1,9 +1,12 @@
+"use client";
+
 import Image from "next/image";
 import { WorkInfo } from "@/lib/types";
 import { formatWorkPeriod } from "@/lib/utils";
 import { AccordionContent } from "./accordion";
 import { AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
-
+import { useSession } from "@/lib/sessionContext";
+import { EventType } from "@/lib/types";
 export default function WorkRow({
   idx,
   workInfo,
@@ -11,14 +14,44 @@ export default function WorkRow({
   idx: number;
   workInfo: WorkInfo;
 }) {
+  const { submitEvent } = useSession();
+
+  const handleWorkInteraction = (type: "logo" | "expand") => {
+    const metadata = {
+      role: workInfo.role,
+      company: workInfo.companyName || "",
+    };
+
+    switch (type) {
+      case "logo":
+        submitEvent(EventType.WorkLogoClicked, metadata);
+        break;
+      case "expand":
+        submitEvent(EventType.WorkExpanded, metadata);
+        break;
+    }
+  };
+
   return (
     <AccordionItem
       value={"work-" + idx.toString()}
       className="flex flex-col gap-4"
+      onFocus={(e) => {
+        // Only trigger if it's an actual accordion expansion
+        if (
+          e.type === "focus" &&
+          (e.target as HTMLElement).getAttribute("data-state") === "open"
+        ) {
+          handleWorkInteraction("expand");
+        }
+      }}
     >
       <div className="flex flex-row gap-4 items-center">
         {/* Image container */}
-        <div className="relative h-12 aspect-square">
+        <div
+          className="relative h-12 aspect-square cursor-pointer"
+          onClick={() => handleWorkInteraction("logo")}
+        >
           <Image
             src={workInfo.companyLogoUrl}
             alt="Company logo"

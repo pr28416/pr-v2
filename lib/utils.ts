@@ -26,3 +26,87 @@ export function formatToMMMYYYY(date: Date): string {
 export function formatFromMMMYYYY(dateString: string): Date {
   return new Date(Date.parse(dateString + " 01"));
 }
+
+export function getDeviceMetadata(): Record<string, string> {
+  const metadata: Record<string, string> = {};
+
+  // Browser info
+  metadata.userAgent = navigator.userAgent;
+  metadata.browser = getBrowser();
+  metadata.browserVersion = getBrowserVersion();
+
+  // Screen and window
+  metadata.screenWidth = window.screen.width.toString();
+  metadata.screenHeight = window.screen.height.toString();
+  metadata.windowWidth = window.innerWidth.toString();
+  metadata.windowHeight = window.innerHeight.toString();
+  metadata.devicePixelRatio = window.devicePixelRatio.toString();
+
+  // Platform
+  metadata.platform = navigator.platform;
+  metadata.language = navigator.language;
+
+  // Device type
+  metadata.deviceType = getDeviceType();
+
+  // Time
+  metadata.timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  metadata.timestamp = new Date().toISOString();
+
+  return metadata;
+}
+
+function getBrowser(): string {
+  const ua = navigator.userAgent;
+  if (ua.includes("Firefox")) return "Firefox";
+  if (ua.includes("SamsungBrowser")) return "Samsung Browser";
+  if (ua.includes("Opera") || ua.includes("OPR")) return "Opera";
+  if (ua.includes("Edge")) return "Edge";
+  if (ua.includes("Chrome")) return "Chrome";
+  if (ua.includes("Safari")) return "Safari";
+  return "Unknown";
+}
+
+function getBrowserVersion(): string {
+  const ua = navigator.userAgent;
+  let tem: RegExpMatchArray | null;
+  let match =
+    ua.match(/(opera|chrome|safari|firefox|msie|trident(?=\/))\/?\s*(\d+)/i) ||
+    [];
+
+  if (/trident/i.test(match[1])) {
+    tem = /\brv[ :]+(\d+)/g.exec(ua);
+    return tem?.[1] || "";
+  }
+
+  if (match[1] === "Chrome") {
+    tem = ua.match(/\bOPR|Edge\/(\d+)/);
+    if (tem != null) {
+      return tem[1];
+    }
+  }
+
+  match = match[2]
+    ? [match[1], match[2]]
+    : [navigator.appName, navigator.appVersion, "-?"];
+  tem = ua.match(/version\/(\d+)/i);
+  if (tem != null) {
+    match.splice(1, 1, tem[1]);
+  }
+
+  return match[1];
+}
+
+function getDeviceType(): string {
+  const ua = navigator.userAgent;
+  if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+    return "tablet";
+  }
+  if (
+    /Mobile|Android|iP(hone|od)|IEMobile|BlackBerry|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/
+      .test(ua)
+  ) {
+    return "mobile";
+  }
+  return "desktop";
+}
