@@ -1,9 +1,9 @@
 "use client";
 
 import { EventType } from "@/lib/types";
-import { supabase } from "@/supabase/utils";
 import { Eye } from "lucide-react";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { getEventCount } from "@/lib/actions";
 
 type ViewTrackerProps = {
   event: EventType;
@@ -25,63 +25,15 @@ export default function ViewTracker({
   metadataFilter,
 }: ViewTrackerProps) {
   const [count, setCount] = useState<number>(0);
-
-  // Memoize the query function
-  const fetchCount = useMemo(
-    () => async () => {
-      let query = supabase
-        .from("events")
-        .select("count")
-        .eq("event_name", event);
-
-      // Add metadata filter if provided
-      if (metadataFilter) {
-        // Use -> operator for JSONB path and ->> for text comparison
-        query = query.eq(
-          `metadata->>${metadataFilter.key}`,
-          metadataFilter.value
-        );
-      }
-
-      const { data, error } = await query;
-
-      if (error) {
-        console.error("Error fetching event count:", error);
-        return;
-      }
-
-      // Sum up all the counts
-      const totalCount = data.reduce((sum, row) => sum + (row.count || 0), 0);
-      setCount(totalCount);
-    },
-    [event, metadataFilter]
-  );
+  const hasFetchedRef = useRef(false);
 
   useEffect(() => {
-    fetchCount();
+    // Only fetch once per instance
+    if (hasFetchedRef.current) return;
+    hasFetchedRef.current = true;
 
-    // Subscribe to changes
-    const channel = supabase
-      .channel("events_changes")
-      .on(
-        "postgres_changes",
-        {
-          event: "*",
-          schema: "public",
-          table: "events",
-          filter: `event_name=eq.${event}`,
-        },
-        () => {
-          // Refetch count when changes occur
-          fetchCount();
-        }
-      )
-      .subscribe();
-
-    return () => {
-      channel.unsubscribe();
-    };
-  }, [event, fetchCount]);
+    getEventCount(event, metadataFilter).then(setCount);
+  }, [event, metadataFilter]);
 
   return (
     <div
