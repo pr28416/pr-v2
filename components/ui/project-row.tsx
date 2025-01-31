@@ -86,7 +86,7 @@ export default function ProjectRow({
                   <Image
                     src={projectInfo.projectLogoUrl}
                     alt="Company logo"
-                    layout="fill"
+                    fill
                     className="rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out bg-rose-200 dark:bg-rose-950"
                   />
                 </Link>

@@ -102,7 +102,7 @@ export default function Home() {
             <Image
               src={ProfilePic}
               alt="Profile picture"
-              objectFit="cover"
+              // objectFit="cover"
               fill
               onClick={() => {
                 setImageEffect(true);

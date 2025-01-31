@@ -4,7 +4,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Analytics } from "@vercel/analytics/react";
 import { SessionProvider } from "@/lib/sessionContext";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSession } from "@/lib/sessionContext";
 import { EventType } from "@/lib/types";
 
@@ -44,7 +44,9 @@ export default function ClientLayout({
         enableSystem
         disableTransitionOnChange
       >
-        <NavigationEvents />
+        <Suspense>
+          <NavigationEvents />
+        </Suspense>
         {children}
       </ThemeProvider>
     </SessionProvider>
