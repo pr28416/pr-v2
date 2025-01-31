@@ -26,34 +26,3 @@ export async function submitEvent(
         console.error("Error submitting event:", error);
     }
 }
-
-export async function getEventCount(
-    event: EventType,
-    metadataFilter?: {
-        key: string;
-        value: string;
-    },
-) {
-    let query = supabase
-        .from("events")
-        .select("count")
-        .eq("event_name", event);
-
-    // Add metadata filter if provided
-    if (metadataFilter) {
-        query = query.eq(
-            `metadata->>${metadataFilter.key}`,
-            metadataFilter.value,
-        );
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-        console.error("Error fetching event count:", error);
-        return 0;
-    }
-
-    // Sum up all the counts
-    return data.reduce((sum, row) => sum + (row.count || 0), 0);
-}
