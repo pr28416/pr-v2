@@ -1,10 +1,8 @@
-import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import type { Metadata } from "next";
 import { Figtree } from "next/font/google";
 import "./globals.css";
-import { ThemeProvider } from "@/components/theme-provider";
-import { Analytics } from "@vercel/analytics/react";
-import { SessionProvider } from "@/lib/sessionContext";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
+import ClientLayout from "./client-layout";
 
 const fontFamily = Figtree({ subsets: ["latin"] });
 
@@ -19,22 +17,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <GoogleAnalytics gaId="G-FVRFW9M3LZ" />
       <GoogleTagManager gtmId="GTM-PDJTJ6XV" />
-      <SessionProvider>
-        <body className={fontFamily.className}>
-          <Analytics />
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
-            {children}
-          </ThemeProvider>
-        </body>
-      </SessionProvider>
+      <body className={fontFamily.className}>
+        <ClientLayout>{children}</ClientLayout>
+      </body>
     </html>
   );
 }

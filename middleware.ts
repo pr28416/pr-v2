@@ -9,7 +9,9 @@ export async function middleware(request: NextRequest) {
     if (
         request.method !== "GET" ||
         !request.headers.get("accept")?.includes("text/html") ||
-        request.headers.get("purpose") === "prefetch"
+        request.headers.get("purpose") === "prefetch" ||
+        // Skip if it's a client-side navigation
+        request.headers.get("x-nextjs-data")
     ) {
         return NextResponse.next();
     }
@@ -33,17 +35,26 @@ export async function middleware(request: NextRequest) {
         });
     }
 
-    // Track the page visit with minimal but useful metadata
-    await submitEvent(
-        sessionId,
-        EventType.PageVisit,
-        request.nextUrl.pathname,
-        {
-            referrer: request.headers.get("referer") || "",
-            host: request.headers.get("host") || "",
-            query: request.nextUrl.search || "",
-        },
-    );
+    // Only track initial page loads, not client-side navigation
+    if (!request.headers.get("x-nextjs-data")) {
+        const destination = new URL(request.url);
+        const source = request.headers.get("referer")
+            ? new URL(request.headers.get("referer")!)
+            : null;
+
+        await submitEvent(
+            sessionId,
+            EventType.PageVisit,
+            destination.pathname,
+            {
+                destination: destination.pathname,
+                source: source?.pathname || "",
+                source_domain: source?.host || "",
+                query: destination.search || "",
+                navigation_type: "initial",
+            },
+        );
+    }
 
     return response;
 }

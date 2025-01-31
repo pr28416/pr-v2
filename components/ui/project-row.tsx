@@ -7,6 +7,8 @@ import { AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
 import Link from "next/link";
 import { useSession } from "@/lib/sessionContext";
 import { EventType } from "@/lib/types";
+import { useEffect, useRef } from "react";
+import ViewTracker from "./view-tracker";
 
 export default function ProjectRow({
   idx,
@@ -16,6 +18,36 @@ export default function ProjectRow({
   projectInfo: ProjectInfo;
 }) {
   const { submitEvent } = useSession();
+  const accordionItemRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const element = accordionItemRef.current;
+    if (!element) return;
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-state"
+        ) {
+          const isExpanded = element.getAttribute("data-state") === "open";
+          if (isExpanded) {
+            submitEvent(EventType.ProjectExpanded, {
+              project_name: projectInfo.projectName,
+              project_link: projectInfo.projectLink || "",
+            });
+          }
+        }
+      });
+    });
+
+    observer.observe(element, {
+      attributes: true,
+      attributeFilter: ["data-state"],
+    });
+
+    return () => observer.disconnect();
+  }, [projectInfo.projectName, projectInfo.projectLink, submitEvent]);
 
   const handleProjectClick = (type: "logo" | "link") => {
     const metadata = {
@@ -38,17 +70,7 @@ export default function ProjectRow({
     <AccordionItem
       value={"project-" + idx.toString()}
       className="flex flex-col gap-4"
-      onFocus={(e) => {
-        // Check if the accordion item is being expanded
-        const isExpanded =
-          (e.target as HTMLElement).getAttribute("data-state") === "open";
-        if (isExpanded) {
-          submitEvent(EventType.ProjectExpanded, {
-            project_name: projectInfo.projectName,
-            project_link: projectInfo.projectLink || "",
-          });
-        }
-      }}
+      ref={accordionItemRef}
     >
       <div className="flex flex-row gap-4 items-center">
         {/* Image container */}
@@ -74,24 +96,33 @@ export default function ProjectRow({
         {/* Company info */}
         <AccordionTrigger className="flex flex-col w-full text-start">
           <div className="flex flex-row gap-4 justify-between items-baseline w-full">
-            {projectInfo.projectLink ? (
-              <Link
-                className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg transition ease-in-out hover:scale-110 hover:text-blue-500 dark:hover:text-blue-400"
-                href={projectInfo.projectLink || ""}
-                target="_blank"
-                rel="noreferrer noopener"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  handleProjectClick("link");
+            <div className="flex flex-row items-center gap-3 w-full justify-between">
+              {projectInfo.projectLink ? (
+                <Link
+                  className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg transition ease-in-out hover:scale-110 hover:text-blue-500 dark:hover:text-blue-400"
+                  href={projectInfo.projectLink || ""}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleProjectClick("link");
+                  }}
+                >
+                  {projectInfo.projectName}
+                </Link>
+              ) : (
+                <div className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg">
+                  {projectInfo.projectName}
+                </div>
+              )}
+              <ViewTracker
+                event={EventType.ProjectExpanded}
+                metadataFilter={{
+                  key: "project_name",
+                  value: projectInfo.projectName,
                 }}
-              >
-                {projectInfo.projectName}
-              </Link>
-            ) : (
-              <div className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg">
-                {projectInfo.projectName}
-              </div>
-            )}
+              />
+            </div>
           </div>
           <div className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
             {projectInfo.projectCaption}

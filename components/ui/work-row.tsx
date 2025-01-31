@@ -7,6 +7,8 @@ import { AccordionContent } from "./accordion";
 import { AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
 import { useSession } from "@/lib/sessionContext";
 import { EventType } from "@/lib/types";
+import { useRef, useEffect } from "react";
+
 export default function WorkRow({
   idx,
   workInfo,
@@ -15,43 +17,46 @@ export default function WorkRow({
   workInfo: WorkInfo;
 }) {
   const { submitEvent } = useSession();
+  const accordionItemRef = useRef<HTMLDivElement>(null);
 
-  const handleWorkInteraction = (type: "logo" | "expand") => {
-    const metadata = {
-      role: workInfo.role,
-      company: workInfo.companyName || "",
-    };
+  useEffect(() => {
+    const element = accordionItemRef.current;
+    if (!element) return;
 
-    switch (type) {
-      case "logo":
-        submitEvent(EventType.WorkLogoClicked, metadata);
-        break;
-      case "expand":
-        submitEvent(EventType.WorkExpanded, metadata);
-        break;
-    }
-  };
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (
+          mutation.type === "attributes" &&
+          mutation.attributeName === "data-state"
+        ) {
+          const isExpanded = element.getAttribute("data-state") === "open";
+          if (isExpanded) {
+            submitEvent(EventType.WorkExpanded, {
+              role: workInfo.role,
+              company: workInfo.companyName || "",
+            });
+          }
+        }
+      });
+    });
+
+    observer.observe(element, {
+      attributes: true,
+      attributeFilter: ["data-state"],
+    });
+
+    return () => observer.disconnect();
+  }, [workInfo.role, workInfo.companyName, submitEvent]);
 
   return (
     <AccordionItem
       value={"work-" + idx.toString()}
       className="flex flex-col gap-4"
-      onFocus={(e) => {
-        // Only trigger if it's an actual accordion expansion
-        if (
-          e.type === "focus" &&
-          (e.target as HTMLElement).getAttribute("data-state") === "open"
-        ) {
-          handleWorkInteraction("expand");
-        }
-      }}
+      ref={accordionItemRef}
     >
       <div className="flex flex-row gap-4 items-center">
         {/* Image container */}
-        <div
-          className="relative h-12 aspect-square cursor-pointer"
-          onClick={() => handleWorkInteraction("logo")}
-        >
+        <div className="relative h-12 aspect-square">
           <Image
             src={workInfo.companyLogoUrl}
             alt="Company logo"
