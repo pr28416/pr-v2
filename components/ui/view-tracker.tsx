@@ -36,13 +36,15 @@ export default function ViewTracker({
   }, [event, metadataFilter]);
 
   return (
-    <div
-      className={`inline-flex gap-1 items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-500 dark:bg-slate-900 dark:text-slate-400 ${
-        className || ""
-      }`}
-    >
-      <Eye className="w-4 h-4" />
-      {formatCompactNumber(count)}
-    </div>
+    count && (
+      <div
+        className={`inline-flex gap-1 items-center justify-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-200 text-slate-500 dark:bg-slate-900 dark:text-slate-400 ${
+          className || ""
+        }`}
+      >
+        <Eye className="w-4 h-4" />
+        {formatCompactNumber(count)}
+      </div>
+    )
   );
 }
