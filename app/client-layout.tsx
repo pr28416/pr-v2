@@ -25,6 +25,7 @@ function NavigationEvents() {
 
     // Call it on mount for the first page load
     handleRouteChange();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname, searchParams]); // Re-run when route changes
 
   return null;
