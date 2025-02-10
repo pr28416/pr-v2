@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { supabase } from "@/supabase/utils";
 
 type ViewTrackerProps = {
-  event: EventType;
+  event: EventType | EventType[];
   className?: string;
   metadataFilter?: {
     key: string;
@@ -28,10 +28,9 @@ export default function ViewTracker({
 
   useEffect(() => {
     const fetchCount = async () => {
-      let query = supabase
-        .from("events")
-        .select("count")
-        .eq("event_name", event);
+      let query = Array.isArray(event)
+        ? supabase.from("events").select("count").in("event_name", event)
+        : supabase.from("events").select("count").eq("event_name", event);
 
       // Add metadata filter if provided
       if (metadataFilter) {

@@ -124,7 +124,10 @@ export default function ProjectRow({
                 </div>
               )}
               <ViewTracker
-                event={EventType.ProjectExpanded}
+                event={[
+                  EventType.ProjectExpanded,
+                  EventType.ProjectLinkClicked,
+                ]}
                 metadataFilter={metadataFilter}
               />
             </div>
