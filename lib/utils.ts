@@ -16,15 +16,38 @@ export function formatWorkPeriod(startDate: Date, endDate?: Date) {
 }
 
 export function formatToMMM(date: Date): string {
-  return date.toLocaleDateString("en-US", { month: "short" });
+  return date.toLocaleString("en-US", { month: "short", timeZone: "UTC" });
 }
 
 export function formatToMMMYYYY(date: Date): string {
-  return date.toLocaleDateString("en-US", { year: "numeric", month: "short" });
+  return date.toLocaleString("en-US", {
+    year: "numeric",
+    month: "short",
+    timeZone: "UTC",
+  });
 }
 
 export function formatFromMMMYYYY(dateString: string): Date {
-  return new Date(Date.parse(dateString + " 01"));
+  const [month, year] = dateString.split(" ");
+  return new Date(Date.UTC(parseInt(year), getMonthIndex(month), 1));
+}
+
+function getMonthIndex(month: string): number {
+  const months = {
+    "Jan": 0,
+    "Feb": 1,
+    "Mar": 2,
+    "Apr": 3,
+    "May": 4,
+    "Jun": 5,
+    "Jul": 6,
+    "Aug": 7,
+    "Sep": 8,
+    "Oct": 9,
+    "Nov": 10,
+    "Dec": 11,
+  };
+  return months[month as keyof typeof months];
 }
 
 export function getDeviceMetadata(): Record<string, string> {
