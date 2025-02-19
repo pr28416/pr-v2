@@ -13,12 +13,48 @@ import {
   CloudLightning,
   Hospital,
   Network,
+  Sparkles,
   Wheat,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
+    {
+      projectName: "Supernova",
+      customLogo: (
+        <Link
+          href="https://devpost.com/software/supernova-p1tum5"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <div className="relative w-full h-full rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out overflow-hidden">
+            <div className="absolute inset-0">
+              <div className="absolute top-0 left-0 w-3/4 h-3/4 bg-gradient-to-br from-pink-500/80 from-40% via-pink-500/80 via-60% to-transparent" />
+              <div className="absolute bottom-0 left-0 w-3/4 h-3/4 bg-gradient-to-tr from-orange-400/80 from-40% via-orange-400/80 via-60% to-transparent" />
+              <div className="absolute top-0 right-0 w-3/4 h-3/4 bg-gradient-to-bl from-blue-500/80 from-40% via-blue-500/80 via-60% to-transparent" />
+              <div className="absolute bottom-0 right-0 w-3/4 h-3/4 bg-gradient-to-tl from-purple-600/80 from-40% via-purple-600/80 via-60% to-transparent" />
+            </div>
+            <Sparkles className="text-slate-200 text-4xl w-full h-full p-2 relative z-10" />
+          </div>
+        </Link>
+      ),
+      projectCaption: "Turn product links into AI-generated ads in minutes.",
+      projectLink: "https://devpost.com/software/supernova-p1tum5",
+      description:
+        "Supernova is an AI platform that generates personalized video ads featuring AI-powered influencer avatars. It uses AI agents for market research, influencer selection, and content creation. The system handles everything from script generation to B-roll creation using Runway ML, voice synthesis via Cartesia, and avatar generation through HeyGen. Built with Next.js, Groq, OpenAI, Perplexity, and Supabase, it streamlines the entire ad creation process while ensuring brand alignment and audience engagement. Supernova won 2nd Place Grand Prize at 2025 Stanford TreeHacks.",
+      tags: [
+        "Next.js",
+        "Groq",
+        "OpenAI",
+        "Perplexity",
+        "Supabase",
+        "HeyGen",
+        "Runway ML",
+        "Cartesia",
+        "Firecrawl",
+      ],
+    },
     {
       projectName: "Omniscient AI",
       customLogo: (
