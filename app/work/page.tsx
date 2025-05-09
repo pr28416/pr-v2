@@ -5,6 +5,7 @@ import HarvardSeasLogo from "@/assets/harvard_seas.jpg";
 import NeoScholarsLogo from "@/assets/neo.jpeg";
 import CokeScholarsLogo from "@/assets/cokescholars.png";
 import CoframeLogo from "@/assets/coframe.jpeg";
+import CitadelLogo from "@/assets/citadel.jpg";
 import HumanCapitalLogo from "@/assets/humancapital.jpeg";
 import ZFellowsLogo from "@/assets/zfellows.jpeg";
 import WorkRow from "@/components/ui/work-row";
@@ -13,6 +14,15 @@ import { Accordion } from "@/components/ui/accordion";
 
 export default function WorkPage() {
   const workInfo: WorkInfo[] = [
+    {
+      role: "Software Engineer Intern",
+      companyName: "Citadel",
+      companyLogoUrl: CitadelLogo,
+      start_date: formatFromMMMYYYY("Jun 2025"),
+      end_date: formatFromMMMYYYY("Aug 2025"),
+      listDescription: ["Applied AI team."],
+      tags: ["Python", "LLMs", "Next.js", "TypeScript"],
+    },
     {
       role: "Software Engineer Intern",
       companyName: "Coframe",

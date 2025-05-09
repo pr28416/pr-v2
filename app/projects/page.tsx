@@ -15,11 +15,34 @@ import {
   Network,
   Sparkles,
   Wheat,
+  Shield,
 } from "lucide-react";
 import Link from "next/link";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
+    {
+      projectName: "Pen AI",
+      customLogo: (
+        <Link
+          href="https://pen-0penai.vercel.app/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <div className="relative w-full h-full rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out overflow-hidden">
+            <div className="absolute inset-0">
+              <div className="absolute inset-0 bg-gradient-to-br from-stone-300 from-40% via-stone-200 via-60% to-stone-400 dark:from-stone-800 dark:from-40% dark:via-stone-700 dark:via-60% dark:to-stone-900" />
+            </div>
+            <Shield className="text-slate-700 dark:text-slate-200 text-4xl w-full h-full p-2 relative z-10" />
+          </div>
+        </Link>
+      ),
+      projectCaption: "AI-Powered Penetration Testing for GitHub Repositories",
+      projectLink: "https://pen-0penai.vercel.app/",
+      description:
+        "Pen AI is an innovative platform that leverages Large Language Models to provide automated penetration testing for GitHub repositories. The platform offers seamless GitHub integration, automatically scanning code on push events, and provides comprehensive vulnerability reports with actionable remediation steps. Key features include AI-powered analysis using GPT-4o for advanced vulnerability detection, automated testing through serverless functions, role-based access control via GitHub OAuth, and real-time monitoring with a centralized dashboard. The platform helps developers and organizations build more secure applications by identifying security risks and suggesting targeted penetration tests.",
+      tags: ["Next.js", "GPT-4o", "GitHub OAuth", "Serverless", "AI Security"],
+    },
     {
       projectName: "Supernova",
       customLogo: (

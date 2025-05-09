@@ -207,7 +207,7 @@ export default function Home() {
               >
                 Ramp
               </Link>
-              . Building AI for democracy.
+              . Building AI for engineers.
             </div>
           </div>
           <div className="flex flex-row justify-between items-center gap-2 -ml-3">
