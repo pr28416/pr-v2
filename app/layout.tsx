@@ -7,8 +7,9 @@ import ClientLayout from "./client-layout";
 const fontFamily = Figtree({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Pranav Ramesh's Website",
-  description: "Pranav Ramesh's Website",
+  title: "Pranav Ramesh",
+  description:
+    "Avid builder & entrepreneur. Prev. Growth Eng @ Ramp. Building AI for engineers.",
 };
 
 export default function RootLayout({
