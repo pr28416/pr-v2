@@ -132,7 +132,7 @@ export default function ProjectRow({
               />
             </div>
           </div>
-          <div className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">
+          <div className="text-slate-500 dark:text-slate-400 text-sm sm:text-base transition-all duration-300 ease-in-out hover:text-blue-600 dark:hover:text-blue-400 hover:drop-shadow-[0_0_8px_rgba(59,130,246,0.5)] dark:hover:drop-shadow-[0_0_8px_rgba(96,165,250,0.6)]">
             {projectInfo.projectCaption}
           </div>
         </AccordionTrigger>
