@@ -6,6 +6,7 @@ import AGIHouse from "@/assets/agihouse.webp";
 import Matanataki from "@/assets/matanataki_logo.jpeg";
 import CityOfBoston from "@/assets/cityofboston.png";
 import OkaySo from "@/assets/okayso.jpeg";
+import MagpieLogo from "@/assets/magpie_logo.png";
 import ProjectRow from "@/components/ui/project-row";
 import { Accordion } from "@radix-ui/react-accordion";
 import {
@@ -18,11 +19,40 @@ import {
   Shield,
 } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function ProjectsPage() {
   const projects: ProjectInfo[] = [
     {
+      projectName: "Magpie",
+      kind: "side",
+      customLogo: (
+        <Link
+          href="https://try-magpie.vercel.app/"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          <div className="relative w-full h-full rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out overflow-hidden bg-gray-200 dark:bg-gray-800">
+            <div className="absolute inset-1.5">
+              <Image
+                src={MagpieLogo}
+                alt="Magpie logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+          </div>
+        </Link>
+      ),
+      projectCaption: "Unified browser spotlight search",
+      projectLink: "https://try-magpie.vercel.app/",
+      description:
+        "Magpie is an end-to-end unified search platform that enables users to find information across all their data sources in milliseconds. The platform replaces scattered files, endless folders, and time-consuming searches with a single unified search interface. Key features include instant search across multiple data sources like Google Drive, Dropbox, and Notion, real-time synchronization to keep search indexes up-to-date, natural language queries for intuitive document discovery, end-to-end encryption for security and privacy, and team collaboration with shared access and permissions. Magpie helps teams find what they need instantly, eliminating hours of manual searching.",
+      tags: ["Next.js", "GitHub", "Supabase", "Express.js", "Chrome Extension"],
+    },
+    {
       projectName: "Pen AI",
+      kind: "side",
       customLogo: (
         <Link
           href="https://pen-0penai.vercel.app/"
@@ -45,6 +75,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Supernova",
+      kind: "hackathon",
       customLogo: (
         <Link
           href="https://devpost.com/software/supernova-p1tum5"
@@ -80,6 +111,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Omniscient AI",
+      kind: "hackathon",
       customLogo: (
         <Link
           href="https://youtu.be/b_iaNQ20SlM"
@@ -105,6 +137,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "LiRA",
+      kind: "side",
       customLogo: (
         <Link href="/lira_paper.pdf" target="_blank" rel="noreferrer noopener">
           <Network className="text-purple-600 dark:text-purple-400 text-4xl w-full h-full p-2 bg-purple-100 dark:bg-purple-950 rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out" />
@@ -119,6 +152,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Aria",
+      kind: "hackathon",
       customLogo: (
         <Link
           href="https://devpost.com/software/aria-sc10g2"
@@ -144,6 +178,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Lightspeed",
+      kind: "side",
       customLogo: (
         <Link
           href="https://lightspeedads.netlify.app/"
@@ -162,6 +197,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Rally",
+      kind: "hackathon",
       customLogo: (
         <Link
           href="https://devpost.com/software/rally-8sxi2t"
@@ -189,6 +225,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Classiq.red",
+      kind: "side",
       projectLogoUrl: ClassiqLogo,
       projectCaption: "Fast course search for Harvard students.",
       projectLink: "https://classiq.red",
@@ -198,6 +235,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Synthesis",
+      kind: "hackathon",
       projectLogoUrl: TreeHacks,
       projectCaption: "Personalize and de-bias the news with AI.",
       projectLink: "https://devpost.com/software/synthesis-ag1djb",
@@ -214,6 +252,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Donna",
+      kind: "hackathon",
       projectLogoUrl: AGIHouse,
       projectCaption:
         "Helps lawyers semantically search through deposition material fast.",
@@ -224,6 +263,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Matanataki",
+      kind: "nonprofit",
       projectLogoUrl: Matanataki,
       projectCaption: "Web platform to coordinate waste pickup in Fiji.",
       description:
@@ -232,6 +272,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "City of Boston Spending Portal",
+      kind: "nonprofit",
       projectLogoUrl: CityOfBoston,
       projectCaption: "Gain transparency on the City of Boston's spending.",
       description:
@@ -240,12 +281,24 @@ export default function ProjectsPage() {
     },
     {
       projectName: "OkaySo Expert Portal",
+      kind: "nonprofit",
       projectLogoUrl: OkaySo,
       projectCaption: "Enable OkaySo experts to help users at scale.",
       description:
         "In my freshman fall semester at Harvard, I collaborated with fellow social tech entrepreneurs to develop a web platform for OkaySo. OkaySo is a nonprofit initiative that provides a safe space for young adults to anonymously ask questions to experts regarding mental health, identity, relationships, and more. These are topics that many young adults have questions about as they grow older but do not feel comfortable doing so publicly and need authentic, educated advice. However, we found that current online solutions, including OkaySo, were not as readily accessible to both inquirers and experts. Working with OkaySo, we created a React/Node.js-powered web app where experts can efficiently respond to user inquiries and facilitate seamless, secure, message-based conversations with those whom they are helping. As part of our efforts, we were able to substantially increase the team's user base and user satisfaction with expert replies, bringing us one step closer to improving health education.",
       tags: ["React", "Express.js"],
     },
+  ];
+
+  // Group projects by kind
+  const hackathonProjects = projects.filter((p) => p.kind === "hackathon");
+  const sideProjects = projects.filter((p) => p.kind === "side");
+  const nonprofitProjects = projects.filter((p) => p.kind === "nonprofit");
+
+  const projectGroups = [
+    { title: "hackathon projects", projects: hackathonProjects },
+    { title: "side projects", projects: sideProjects },
+    { title: "nonprofit work", projects: nonprofitProjects },
   ];
 
   return (
@@ -259,8 +312,19 @@ export default function ProjectsPage() {
               projects
             </div>
             <Accordion type="multiple" className="flex flex-col gap-4">
-              {projects.map((project, idx) => (
-                <ProjectRow key={idx} idx={idx} projectInfo={project} />
+              {projectGroups.map((group, groupIdx) => (
+                <div key={groupIdx} className="flex flex-col gap-4">
+                  <div className="text-xl font-semibold text-slate-600 dark:text-slate-300 mt-4 first:mt-0">
+                    {group.title}
+                  </div>
+                  {group.projects.map((project, idx) => (
+                    <ProjectRow
+                      key={`${groupIdx}-${idx}`}
+                      idx={groupIdx * 1000 + idx}
+                      projectInfo={project}
+                    />
+                  ))}
+                </div>
               ))}
             </Accordion>
           </div>
