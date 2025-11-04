@@ -9,6 +9,7 @@ import { useSession } from "@/lib/sessionContext";
 import { EventType } from "@/lib/types";
 import { useEffect, useRef, useMemo } from "react";
 import ViewTracker from "./view-tracker";
+import { Trophy } from "lucide-react";
 
 export default function ProjectRow({
   idx,
@@ -105,31 +106,67 @@ export default function ProjectRow({
         <AccordionTrigger className="flex flex-col w-full text-start">
           <div className="flex flex-row gap-4 justify-between items-baseline w-full">
             <div className="flex flex-row items-center gap-3 w-full justify-between">
-              {projectInfo.projectLink ? (
-                <Link
-                  className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg transition ease-in-out hover:scale-110 hover:text-blue-500 dark:hover:text-blue-400"
-                  href={projectInfo.projectLink || ""}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleProjectClick("link");
-                  }}
-                >
-                  {projectInfo.projectName}
-                </Link>
-              ) : (
-                <div className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg">
-                  {projectInfo.projectName}
-                </div>
-              )}
-              <ViewTracker
-                event={[
-                  EventType.ProjectExpanded,
-                  EventType.ProjectLinkClicked,
-                ]}
-                metadataFilter={metadataFilter}
-              />
+              <div className="flex flex-row items-center gap-2 flex-wrap">
+                {projectInfo.projectLink ? (
+                  <Link
+                    className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg transition ease-in-out hover:scale-110 hover:text-blue-500 dark:hover:text-blue-400"
+                    href={projectInfo.projectLink || ""}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      handleProjectClick("link");
+                    }}
+                  >
+                    {projectInfo.projectName}
+                  </Link>
+                ) : (
+                  <div className="text-slate-700 dark:text-slate-200 font-semibold sm:text-lg">
+                    {projectInfo.projectName}
+                  </div>
+                )}
+              </div>
+              <div className="flex flex-row items-center gap-2">
+                {projectInfo.kind === "hackathon" && projectInfo.wins && projectInfo.wins.length > 0 && (
+                  <div className="flex flex-row gap-1.5 flex-wrap items-center">
+                    {projectInfo.wins.map((win, idx) => {
+                      // Determine color based on placement for consistency
+                      const winLower = win.toLowerCase();
+                      let colorClass: string;
+                      
+                      if (winLower.includes("1st") || winLower.includes("first")) {
+                        colorClass = "bg-amber-100 dark:bg-amber-900/30 text-amber-700 dark:text-amber-400";
+                      } else if (winLower.includes("2nd") || winLower.includes("second")) {
+                        colorClass = "bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400";
+                      } else if (winLower.includes("3rd") || winLower.includes("third")) {
+                        colorClass = "bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400";
+                      } else if (winLower.includes("best")) {
+                        colorClass = "bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400";
+                      } else {
+                        // Default color for other awards
+                        colorClass = "bg-indigo-100 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-400";
+                      }
+                      
+                      return (
+                        <div
+                          key={idx}
+                          className={`flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${colorClass}`}
+                        >
+                          <Trophy className="w-3 h-3" />
+                          <span>{win}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+                <ViewTracker
+                  event={[
+                    EventType.ProjectExpanded,
+                    EventType.ProjectLinkClicked,
+                  ]}
+                  metadataFilter={metadataFilter}
+                />
+              </div>
             </div>
           </div>
           <div className="text-slate-500 dark:text-slate-400 text-sm sm:text-base">

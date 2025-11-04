@@ -21,6 +21,7 @@ export type ProjectInfo = {
   projectLink?: string;
   customLogo?: React.ReactNode;
   kind?: "hackathon" | "side" | "nonprofit";
+  wins?: string[];
 };
 
 export enum EventType {

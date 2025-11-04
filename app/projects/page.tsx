@@ -95,6 +95,7 @@ export default function ProjectsPage() {
       ),
       projectCaption: "Turn product links into AI-generated ads in minutes.",
       projectLink: "https://devpost.com/software/supernova-p1tum5",
+      wins: ["2nd Place Overall"],
       description:
         "Supernova is an AI platform that generates personalized video ads featuring AI-powered influencer avatars. It uses AI agents for market research, influencer selection, and content creation. The system handles everything from script generation to B-roll creation using Runway ML, voice synthesis via Cartesia, and avatar generation through HeyGen. Built with Next.js, Groq, OpenAI, Perplexity, and Supabase, it streamlines the entire ad creation process while ensuring brand alignment and audience engagement. Supernova won 2nd Place Grand Prize at 2025 Stanford TreeHacks.",
       tags: [
@@ -111,7 +112,7 @@ export default function ProjectsPage() {
     },
     {
       projectName: "Omniscient AI",
-      kind: "hackathon",
+      kind: "side",
       customLogo: (
         <Link
           href="https://youtu.be/b_iaNQ20SlM"
@@ -210,6 +211,7 @@ export default function ProjectsPage() {
       projectCaption:
         "AI platform that creates personalized political ads with AI-driven candidate personas.",
       projectLink: "https://devpost.com/software/rally-8sxi2t",
+      wins: ["2nd Place Overall", "Best Design"],
       description:
         "In September 2024, I co-built Rally AI, an AI platform that generates personalized political ads featuring candidate personas. Rally scrapes local news and economic data using Firecrawl and Perplexity, then stores curated insights in a Supabase database. GPT4o-mini crafts speeches in the politician's style, while Cartesia.ai's Sonic text-to-speech creates voice narration. Pexels provides B-roll footage, and SyncLabs lip-syncs the narration to existing footage of the candidate. The final ad integrates stock footage and voice to match relevant voter concerns. Rally AI won 2nd Place Overall and Best Design at PennApps 2024.",
       tags: [
@@ -239,6 +241,7 @@ export default function ProjectsPage() {
       projectLogoUrl: TreeHacks,
       projectCaption: "Personalize and de-bias the news with AI.",
       projectLink: "https://devpost.com/software/synthesis-ag1djb",
+      wins: ["Best AI Hack"],
       description:
         "In February 2024, at Stanford TreeHacks, my team developed Synthesis, a groundbreaking news platform aimed at combating political polarization and information overload. Leveraging cutting-edge AI technology, Synthesis aggregates over 60,000 articles daily from 100+ sources, clustering them by topic similarity to provide unbiased and comprehensive coverage. Through innovative features such as Gists, Syntheses, and a Recommender Algorithm, users can access personalized, high-quality news content that promotes understanding and engagement. I led the development of Synthesis's AI News Agent, utilizing advanced techniques in text extraction, semantic similarity, and clustering to create a scalable and cost-efficient system. We won Best AI Hack, sponsored by Coframe.",
       tags: [
@@ -257,6 +260,7 @@ export default function ProjectsPage() {
       projectCaption:
         "Helps lawyers semantically search through deposition material fast.",
       projectLink: "https://x.com/pranavramesh25/status/1779735875548598613",
+      wins: ["3rd Place"],
       description:
         "In April 2024, at the AGI House hackathon at MIT, my team developed Donna, an AI deposition agent that allows lawyers to perform semantic search on deposition videos and compare verbal testimony to written testimony, affidavits, and other case documents. We used OpenAI Whisper to accurately transcribe videos and Pinecone to index and search on video transcription and case document vectors. We won third place.",
       tags: ["Next.js", "Python", "Pinecone", "OpenAI Whisper"],
