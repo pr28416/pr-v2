@@ -7,6 +7,8 @@ import Matanataki from "@/assets/matanataki_logo.jpeg";
 import CityOfBoston from "@/assets/cityofboston.png";
 import OkaySo from "@/assets/okayso.jpeg";
 import MagpieLogo from "@/assets/magpie_logo.png";
+import TextremeLogo from "@/assets/textreme_logo.png";
+import TextremeDarkLogo from "@/assets/textreme_dark.png";
 import ProjectRow from "@/components/ui/project-row";
 import { Accordion } from "@radix-ui/react-accordion";
 import {
@@ -72,6 +74,42 @@ export default function ProjectsPage() {
       description:
         "Pen AI is an innovative platform that leverages Large Language Models to provide automated penetration testing for GitHub repositories. The platform offers seamless GitHub integration, automatically scanning code on push events, and provides comprehensive vulnerability reports with actionable remediation steps. Key features include AI-powered analysis using GPT-4o for advanced vulnerability detection, automated testing through serverless functions, role-based access control via GitHub OAuth, and real-time monitoring with a centralized dashboard. The platform helps developers and organizations build more secure applications by identifying security risks and suggesting targeted penetration tests.",
       tags: ["Next.js", "GPT-4o", "GitHub OAuth", "Serverless", "AI Security"],
+    },
+    {
+      projectName: "Textreme",
+      kind: "hackathon",
+      customLogo: (
+        <div className="relative w-full h-full rounded-lg shadow-lg shadow-slate-200 dark:shadow-black transition hover:scale-110 ease-in-out overflow-hidden">
+          <Image
+            src={TextremeLogo}
+            alt="Textreme logo"
+            fill
+            className="object-contain dark:hidden"
+          />
+          <Image
+            src={TextremeDarkLogo}
+            alt="Textreme logo"
+            fill
+            className="object-contain hidden dark:block"
+          />
+        </div>
+      ),
+      projectCaption: "Cursor tab for iMessage",
+      description:
+        "Textreme is a keyboard-first overlay for iMessage built with Electron, Vite, React, TypeScript, Tailwind, and shadcn/ui. The architecture uses a monorepo structure with shared packages for schema types and client logic. For iMessage data access, we built a Rust helper (Cargo) that directly queries the local SQLite chat.db on macOS for fast, efficient conversation retrieval, handling Apple's evolving iMessage schema and attachment edge cases. A Swift helper exports Contacts data. The agentic reply generation uses Vercel AI SDK (ai) with Zod-validated structured outputs, streaming 1–3 context-aware draft replies per message with confidence scores and rationale. The system uses an OpenAI-compatible provider via @ai-sdk/openai, allowing users to bring their own API key for privacy. Performance optimizations include virtualization and batching for handling very long threads, keeping the overlay snappy even with large conversation histories. An optional ML pipeline enables fine-tuning OpenAI OSS 20B models on personal conversation data using Modal + Axolotl, with training tracked via Weights & Biases. All conversation data stays on-device, and the app handles macOS privacy (TCC) permissions and Full Disk Access requirements. Textreme won Best Project by Popular Vote at Neo Hackathon 2025.",
+      tags: [
+        "Electron",
+        "React",
+        "TypeScript",
+        "Rust",
+        "Swift",
+        "Python",
+        "PyTorch",
+        "Modal",
+        "OpenAI",
+        "AppleScript",
+      ],
+      wins: ["Best Project by Popular Vote"],
     },
     {
       projectName: "Supernova",
