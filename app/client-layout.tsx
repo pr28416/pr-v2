@@ -41,8 +41,8 @@ export default function ClientLayout({
       <Analytics />
       <ThemeProvider
         attribute="class"
-        defaultTheme="system"
-        enableSystem
+        defaultTheme="dark"
+        forcedTheme="dark"
         disableTransitionOnChange
       >
         <Suspense>

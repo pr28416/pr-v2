@@ -1,7 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config = {
-  darkMode: "media",
+  darkMode: "class",
   content: [
     "./pages/**/*.{ts,tsx}",
     "./components/**/*.{ts,tsx}",
@@ -18,6 +18,10 @@ const config = {
       },
     },
     extend: {
+      fontFamily: {
+        serif: ["var(--font-serif)", "serif"],
+        sans: ["var(--font-sans)", "sans-serif"],
+      },
       aspectRatio: {
         "4/5": "4/5",
       },
@@ -57,6 +61,13 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
+        },
+        retro: {
+           bg: "#FDFBF7",
+           text: "#1A1A1A",
+           border: "#1A1A1A",
+           muted: "#666666",
+           accent: "#3030E8", // Classic blue
         },
       },
       borderRadius: {

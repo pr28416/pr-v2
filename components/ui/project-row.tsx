@@ -7,8 +7,7 @@ import { AccordionItem, AccordionTrigger } from "@radix-ui/react-accordion";
 import Link from "next/link";
 import { useSession } from "@/lib/sessionContext";
 import { EventType } from "@/lib/types";
-import { useEffect, useRef, useMemo } from "react";
-import ViewTracker from "./view-tracker";
+import { useEffect, useRef } from "react";
 import { Trophy } from "lucide-react";
 
 export default function ProjectRow({
@@ -20,14 +19,6 @@ export default function ProjectRow({
 }) {
   const { submitEvent } = useSession();
   const accordionItemRef = useRef<HTMLDivElement>(null);
-
-  const metadataFilter = useMemo(
-    () => ({
-      key: "project_name",
-      value: projectInfo.projectName,
-    }),
-    [projectInfo.projectName]
-  );
 
   useEffect(() => {
     const element = accordionItemRef.current;
@@ -159,13 +150,6 @@ export default function ProjectRow({
                     })}
                   </div>
                 )}
-                <ViewTracker
-                  event={[
-                    EventType.ProjectExpanded,
-                    EventType.ProjectLinkClicked,
-                  ]}
-                  metadataFilter={metadataFilter}
-                />
               </div>
             </div>
           </div>

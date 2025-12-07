@@ -205,15 +205,7 @@ export default function ProjectsPage() {
       projectLink: "https://devpost.com/software/aria-sc10g2",
       description:
         "I co-developed Aria, the world's first fully-automated medical expert, capable of diagnosing patients through natural conversations, images, and health history. Built on a custom multimodal agentic AI framework, Aria processes live voice inputs, analyzes images of symptoms, and integrates health records to deliver reliable medical advice. Sourced from trusted databases like Medline and PubMed, Aria generates personalized health reports and refers patients to local specialists when needed.",
-      tags: [
-        "Next.js",
-        "Python",
-        "Firecrawl",
-        "Supabase",
-        "Llama",
-        "Anam API",
-        "Mixtral",
-      ],
+      tags: ["Next.js", "Python", "Firecrawl", "Supabase", "Llama", "Anam API", "Mixtral"],
     },
     {
       projectName: "Lightspeed",
@@ -231,7 +223,7 @@ export default function ProjectsPage() {
         "AI platform that helps political organizations create winning ads faster.",
       projectLink: "https://lightspeedads.netlify.app/",
       description:
-        "I'm currently co-building Lightspeed, a single AI workflow for political media monitoring, PR, & advertising teams. Lightspeed allows political organizations to make smarter political ads faster and cheaper through real-time insights, social listening, AI ad creation, targeted messaging, and more.",
+        "I previously co-built Lightspeed, a single AI workflow for political media monitoring, PR, & advertising teams. Lightspeed allowed political organizations to make smarter political ads faster and cheaper through real-time insights, social listening, AI ad creation, targeted messaging, and more. The platform was used by many political campaigns.",
       tags: ["Next.js", "Python", "GPT", "Perplexity", "Supabase"],
     },
     {
@@ -282,14 +274,7 @@ export default function ProjectsPage() {
       wins: ["Best AI Hack"],
       description:
         "In February 2024, at Stanford TreeHacks, my team developed Synthesis, a groundbreaking news platform aimed at combating political polarization and information overload. Leveraging cutting-edge AI technology, Synthesis aggregates over 60,000 articles daily from 100+ sources, clustering them by topic similarity to provide unbiased and comprehensive coverage. Through innovative features such as Gists, Syntheses, and a Recommender Algorithm, users can access personalized, high-quality news content that promotes understanding and engagement. I led the development of Synthesis's AI News Agent, utilizing advanced techniques in text extraction, semantic similarity, and clustering to create a scalable and cost-efficient system. We won Best AI Hack, sponsored by Coframe.",
-      tags: [
-        "Next.js",
-        "Python",
-        "Pinecone",
-        "Selenium",
-        "PostgreSQL",
-        "Supabase",
-      ],
+      tags: ["Next.js", "Python", "Pinecone", "Selenium", "PostgreSQL", "Supabase"],
     },
     {
       projectName: "Donna",

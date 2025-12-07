@@ -20,6 +20,8 @@ export type ProjectInfo = {
   tags?: string[];
   projectLink?: string;
   customLogo?: React.ReactNode;
+  customIcon?: React.ReactNode;
+  iconBg?: string;
   kind?: "hackathon" | "side" | "nonprofit";
   wins?: string[];
 };

@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { v4 as uuidv4 } from "uuid";
-import { submitEvent } from "@/lib/actions";
-import { EventType } from "@/lib/types";
 
 export async function middleware(request: NextRequest) {
     // Only process GET requests for HTML pages
@@ -33,27 +31,6 @@ export async function middleware(request: NextRequest) {
             sameSite: "lax",
             maxAge: 60 * 60 * 24 * 30, // 30 days
         });
-    }
-
-    // Only track initial page loads, not client-side navigation
-    if (!request.headers.get("x-nextjs-data")) {
-        const destination = new URL(request.url);
-        const source = request.headers.get("referer")
-            ? new URL(request.headers.get("referer")!)
-            : null;
-
-        await submitEvent(
-            sessionId,
-            EventType.PageVisit,
-            destination.pathname,
-            {
-                destination: destination.pathname,
-                source: source?.pathname || "",
-                source_domain: source?.host || "",
-                query: destination.search || "",
-                navigation_type: "initial",
-            },
-        );
     }
 
     return response;
