@@ -30,6 +30,7 @@ import PageBackground from "@/assets/page_background3.avif";
 import { useSession } from "@/lib/sessionContext";
 import { EventType, WorkInfo, ProjectInfo } from "@/lib/types";
 import { formatFromMMMYYYY } from "@/lib/utils";
+import GitHubCalendar from "@/components/github-calendar";
 
 // Work Experience Logos
 import RampLogo from "@/assets/ramp_logo.webp";
@@ -594,7 +595,7 @@ export default function Home() {
           </section>
 
           {/* Scholarships */}
-          <section className="mb-6 sm:mb-8">
+          <section className="mb-12 sm:mb-16">
             <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 text-foreground">
               Memberships
             </h2>
@@ -615,6 +616,14 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </section>
+
+          {/* GitHub Contributions */}
+          <section className="mb-6 sm:mb-8">
+            <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl mb-6 sm:mb-8 text-foreground">
+              GitHub Contributions
+            </h2>
+            <GitHubCalendar username="pr28416" />
           </section>
         </div>
       </div>
