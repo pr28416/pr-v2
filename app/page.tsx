@@ -41,6 +41,7 @@ import HumanCapitalLogo from "@/assets/humancapital.jpeg";
 import ZFellowsLogo from "@/assets/zfellows.jpeg";
 import NeoScholarsLogo from "@/assets/neo.jpeg";
 import CokeScholarsLogo from "@/assets/cokescholars.png";
+import DubLogo from "@/assets/dubapp_logo.jpeg";
 
 // Project Logos
 import ClassiqLogo from "@/assets/classiq-logo.png";
@@ -109,6 +110,14 @@ export default function Home() {
   ];
 
   const workExperience: WorkInfo[] = [
+    {
+      role: "Engineer",
+      companyName: "dub",
+      companyLogoUrl: DubLogo,
+      start_date: formatFromMMMYYYY("Dec 2025"),
+      end_date: formatFromMMMYYYY("Feb 2026"),
+      description: "Engineering",
+    },
     {
       role: "SWE Intern",
       companyName: "Citadel",
@@ -401,7 +410,7 @@ export default function Home() {
 
                 <p className="text-sm sm:text-base md:text-lg text-foreground/80 leading-relaxed max-w-2xl text-start">
                   Student at Harvard studying CS & Stats. Most recently on the
-                  AI team at Citadel building out their first research agents.
+                  AI team at Citadel building out their first research agents and automating copy trading at dub.
                 </p>
               </div>
 

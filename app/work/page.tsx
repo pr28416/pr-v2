@@ -8,12 +8,22 @@ import CoframeLogo from "@/assets/coframe.jpeg";
 import CitadelLogo from "@/assets/citadel.jpg";
 import HumanCapitalLogo from "@/assets/humancapital.jpeg";
 import ZFellowsLogo from "@/assets/zfellows.jpeg";
+import DubLogo from "@/assets/dubapp_logo.jpeg";
 import WorkRow from "@/components/ui/work-row";
 import { formatFromMMMYYYY } from "@/lib/utils";
 import { Accordion } from "@/components/ui/accordion";
 
 export default function WorkPage() {
   const workInfo: WorkInfo[] = [
+    {
+      role: "Engineer",
+      companyName: "dub",
+      companyLogoUrl: DubLogo,
+      start_date: formatFromMMMYYYY("Dec 2025"),
+      end_date: formatFromMMMYYYY("Feb 2026"),
+      listDescription: [],
+      tags: [],
+    },
     {
       role: "Software Engineer Intern",
       companyName: "Citadel",
