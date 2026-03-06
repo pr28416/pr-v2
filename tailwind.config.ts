@@ -19,16 +19,27 @@ const config = {
     },
     extend: {
       fontFamily: {
-        serif: ["var(--font-serif)", "serif"],
-        sans: ["var(--font-sans)", "sans-serif"],
-      },
-      aspectRatio: {
-        "4/5": "4/5",
+        mono: ["var(--font-mono)", "monospace"],
       },
       colors: {
-        moretransparent: "#07070955",
-        semiopaque: "#070709AA",
-        midnight: "#070709",
+        dos: {
+          black: "#0C0C0C",
+          blue: "#0000AA",
+          green: "#00AA00",
+          cyan: "#00AAAA",
+          red: "#AA0000",
+          magenta: "#AA00AA",
+          yellow: "#AA5500",
+          white: "#AAAAAA",
+          "bright-black": "#555555",
+          "bright-blue": "#5555FF",
+          "bright-green": "#55FF55",
+          "bright-cyan": "#55FFFF",
+          "bright-red": "#FF5555",
+          "bright-magenta": "#FF55FF",
+          "bright-yellow": "#FFFF55",
+          "bright-white": "#FFFFFF",
+        },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -62,18 +73,11 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        retro: {
-           bg: "#FDFBF7",
-           text: "#1A1A1A",
-           border: "#1A1A1A",
-           muted: "#666666",
-           accent: "#3030E8", // Classic blue
-        },
       },
       borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
+        lg: "0px",
+        md: "0px",
+        sm: "0px",
       },
       keyframes: {
         "accordion-down": {
@@ -86,15 +90,15 @@ const config = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
-        wiggle: {
-          "25%, 75%": { transform: "rotate(-3deg)", scale: "110%" },
-          "50%": { transform: "rotate(3deg)" },
+        blink: {
+          "0%, 49%": { opacity: "1" },
+          "50%, 100%": { opacity: "0" },
         },
       },
       animation: {
-        "accordion-down": "accordion-down 0.3s ease-in-out",
-        "accordion-up": "accordion-up 0.3s ease-in-out",
-        wiggle: "wiggle 200ms ease-in-out",
+        "accordion-down": "accordion-down 0.1s ease-out",
+        "accordion-up": "accordion-up 0.1s ease-out",
+        blink: "blink 1s step-end infinite",
       },
     },
   },

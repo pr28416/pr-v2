@@ -1,14 +1,7 @@
-import { Instrument_Serif, Inter } from "next/font/google";
+import { Fira_Code } from "next/font/google";
 
-export const instrumentSerif = Instrument_Serif({
+export const firaCode = Fira_Code({
   subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["400"],
-  style: ["normal", "italic"],
-});
-
-export const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
+  variable: "--font-mono",
   weight: ["300", "400", "500", "600", "700"],
 });

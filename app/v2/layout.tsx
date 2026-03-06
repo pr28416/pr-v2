@@ -1,4 +1,4 @@
-import { instrumentSerif, inter } from "@/lib/fonts";
+import { firaCode } from "@/lib/fonts";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export default function V2Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className={`${instrumentSerif.variable} ${inter.variable} font-serif bg-retro-bg text-retro-text min-h-screen selection:bg-retro-accent selection:text-white`}>
+    <div className={`${firaCode.variable} font-mono bg-dos-black text-dos-white min-h-screen`}>
       {children}
     </div>
   );

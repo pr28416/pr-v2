@@ -3,7 +3,7 @@ import { StaticImageData } from "next/image";
 export type WorkInfo = {
   role: string;
   companyName?: string;
-  companyLogoUrl: StaticImageData;
+  companyLogoUrl?: StaticImageData;
   description?: string;
   listDescription?: string[];
   start_date?: Date;

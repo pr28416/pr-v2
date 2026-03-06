@@ -14,19 +14,14 @@ function NavigationEvents() {
   const { submitEvent } = useSession();
 
   useEffect(() => {
-    const handleRouteChange = () => {
-      submitEvent(EventType.PageVisit, {
-        destination: pathname,
-        source: window.location.pathname,
-        query: searchParams.toString(),
-        navigation_type: "client",
-      });
-    };
-
-    // Call it on mount for the first page load
-    handleRouteChange();
+    submitEvent(EventType.PageVisit, {
+      destination: pathname,
+      source: window.location.pathname,
+      query: searchParams.toString(),
+      navigation_type: "client",
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname, searchParams]); // Re-run when route changes
+  }, [pathname, searchParams]);
 
   return null;
 }

@@ -1,18 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { useEffect, useState, useRef } from "react";
 
 interface ContributionDay {
   date: string;
@@ -25,24 +13,32 @@ interface ContributionWeek {
 }
 
 const MONTHS = [
-  "Jan",
-  "Feb",
-  "Mar",
-  "Apr",
-  "May",
-  "Jun",
-  "Jul",
-  "Aug",
-  "Sep",
-  "Oct",
-  "Nov",
-  "Dec",
+  "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec",
 ];
 
-// Parse date string (YYYY-MM-DD) without timezone conversion
 function parseDate(dateString: string): Date {
   const [year, month, day] = dateString.split("-").map(Number);
   return new Date(year, month - 1, day);
+}
+
+const BLOCK_CHARS = [" ", "░", "▒", "▓", "█"];
+const BLOCK_COLORS = [
+  "text-dos-bright-black",
+  "text-[#005500]",
+  "text-dos-green",
+  "text-[#00FF00]",
+  "text-dos-bright-green",
+];
+
+const cache = new Map<string, any>();
+
+async function cachedFetch(url: string) {
+  if (cache.has(url)) return cache.get(url);
+  const res = await fetch(url);
+  const data = await res.json();
+  cache.set(url, data);
+  return data;
 }
 
 export default function GitHubCalendar({ username }: { username: string }) {
@@ -54,22 +50,25 @@ export default function GitHubCalendar({ username }: { username: string }) {
   const [accountCreationYear, setAccountCreationYear] = useState<number | null>(
     null
   );
+  const mountedRef = useRef(true);
+
+  useEffect(() => {
+    mountedRef.current = true;
+    return () => { mountedRef.current = false; };
+  }, []);
 
   useEffect(() => {
     async function fetchAccountCreation() {
       try {
-        const response = await fetch(
+        const data = await cachedFetch(
           `https://api.github.com/users/${username}`
         );
-        const data = await response.json();
-        if (data.created_at) {
-          const year = new Date(data.created_at).getFullYear();
-          setAccountCreationYear(year);
+        if (mountedRef.current && data.created_at) {
+          setAccountCreationYear(new Date(data.created_at).getFullYear());
         }
       } catch (error) {
         console.error("Error fetching account creation date:", error);
-        // Default to 2015 if we can't fetch
-        setAccountCreationYear(2015);
+        if (mountedRef.current) setAccountCreationYear(2015);
       }
     }
 
@@ -80,21 +79,16 @@ export default function GitHubCalendar({ username }: { username: string }) {
     async function fetchContributions() {
       setLoading(true);
       try {
-        // Fetch from GitHub's public contribution API
         const yearParam = selectedYear === currentYear ? "last" : selectedYear;
-        const response = await fetch(
-          `https://github-contributions-api.jogruber.de/v4/${username}?y=${yearParam}`
-        );
-        const data = await response.json();
+        const url = `https://github-contributions-api.jogruber.de/v4/${username}?y=${yearParam}`;
+        const data = await cachedFetch(url);
 
-        if (data.contributions) {
-          // Transform the data into weeks
+        if (mountedRef.current && data.contributions) {
           const contributionWeeks: ContributionWeek[] = [];
           const contributions = data.contributions;
 
-          // Group by weeks (Sunday to Saturday)
           let currentWeek: ContributionDay[] = [];
-          contributions.forEach((day: any, index: number) => {
+          contributions.forEach((day: any) => {
             const date = parseDate(day.date);
             const dayOfWeek = date.getDay();
 
@@ -104,14 +98,12 @@ export default function GitHubCalendar({ username }: { username: string }) {
               level: day.level,
             });
 
-            // If it's Saturday, push the week
             if (dayOfWeek === 6) {
               contributionWeeks.push({ days: [...currentWeek] });
               currentWeek = [];
             }
           });
 
-          // Push any remaining days as the final partial week
           if (currentWeek.length > 0) {
             contributionWeeks.push({ days: [...currentWeek] });
           }
@@ -119,32 +111,19 @@ export default function GitHubCalendar({ username }: { username: string }) {
           setWeeks(contributionWeeks);
           setTotalContributions(data.total[Object.keys(data.total)[0]] || 0);
         }
-        setLoading(false);
+        if (mountedRef.current) setLoading(false);
       } catch (error) {
         console.error("Error fetching GitHub contributions:", error);
-        setLoading(false);
+        if (mountedRef.current) setLoading(false);
       }
     }
 
     fetchContributions();
   }, [username, selectedYear, currentYear]);
 
-  const getColor = (level: number) => {
-    switch (level) {
-      case 0:
-        return "bg-slate-800/50";
-      case 1:
-        return "bg-green-900/60";
-      case 2:
-        return "bg-green-700/70";
-      case 3:
-        return "bg-green-500/80";
-      case 4:
-        return "bg-green-400";
-      default:
-        return "bg-slate-800/50";
-    }
-  };
+  const minYear = accountCreationYear ?? currentYear;
+  const canGoBack = selectedYear > minYear;
+  const canGoForward = selectedYear < currentYear;
 
   const getMonthLabels = () => {
     const labels: { month: string; offset: number }[] = [];
@@ -169,46 +148,48 @@ export default function GitHubCalendar({ username }: { username: string }) {
 
   const monthLabels = getMonthLabels();
 
-  // Generate available years
-  const availableYears =
-    accountCreationYear !== null
-      ? Array.from(
-          { length: currentYear - accountCreationYear + 1 },
-          (_, i) => currentYear - i
-        )
-      : [];
-
   return (
-    <div className="w-full">
-      {/* Year selector and stats */}
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-4">
-        <Select
-          value={selectedYear.toString()}
-          onValueChange={(value) => setSelectedYear(parseInt(value))}
-          disabled={loading || availableYears.length === 0}
-        >
-          <SelectTrigger className="w-[140px] bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-colors">
-            <SelectValue placeholder="Select year" />
-          </SelectTrigger>
-          <SelectContent className="bg-slate-900/95 backdrop-blur-md border-white/10">
-            {availableYears.map((year) => (
-              <SelectItem
-                key={year}
-                value={year.toString()}
-                className="focus:bg-white/10"
-              >
-                {year}
-              </SelectItem>
-            ))}
-          </SelectContent>
-        </Select>
-        <div className="text-sm text-foreground/60">
+    <div className="w-full border border-dos-white p-3">
+      <div className="text-dos-bright-white mb-3 border-b border-dos-white pb-1">
+        ══ GITHUB CONTRIBUTIONS ══
+      </div>
+
+      {/* Year selector */}
+      <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => canGoBack && setSelectedYear((y) => y - 1)}
+            disabled={!canGoBack || loading}
+            className={`px-1 transition-colors ${
+              canGoBack && !loading
+                ? "text-dos-bright-cyan hover:bg-dos-cyan hover:text-dos-black cursor-pointer"
+                : "text-dos-bright-black cursor-default"
+            }`}
+          >
+            {"<"}
+          </button>
+          <span className="text-dos-bright-white min-w-[4ch] text-center">
+            {selectedYear}
+          </span>
+          <button
+            onClick={() => canGoForward && setSelectedYear((y) => y + 1)}
+            disabled={!canGoForward || loading}
+            className={`px-1 transition-colors ${
+              canGoForward && !loading
+                ? "text-dos-bright-cyan hover:bg-dos-cyan hover:text-dos-black cursor-pointer"
+                : "text-dos-bright-black cursor-default"
+            }`}
+          >
+            {">"}
+          </button>
+        </div>
+        <div className="text-sm text-dos-bright-black">
           {loading ? (
-            "Loading contributions..."
+            "Loading..."
           ) : (
             <>
               {totalContributions.toLocaleString()} contribution
-              {totalContributions !== 1 ? "s" : ""} in {selectedYear}
+              {totalContributions !== 1 ? "s" : ""}
             </>
           )}
         </div>
@@ -218,14 +199,14 @@ export default function GitHubCalendar({ username }: { username: string }) {
       <div className="overflow-x-auto pb-2">
         <div className="inline-block min-w-full">
           {/* Month labels */}
-          <div className="flex mb-2">
-            <div className="w-8 sm:w-10" /> {/* Spacer for day labels */}
+          <div className="flex mb-1">
+            <div className="w-6 sm:w-8" />
             <div className="flex-1 relative h-4">
               {monthLabels.map((label, index) => (
                 <div
                   key={index}
-                  className="absolute text-xs text-foreground/40"
-                  style={{ left: `${label.offset * 13}px` }}
+                  className="absolute text-xs text-dos-bright-black"
+                  style={{ left: `${label.offset * 11}px` }}
                 >
                   {label.month}
                 </div>
@@ -234,26 +215,25 @@ export default function GitHubCalendar({ username }: { username: string }) {
           </div>
 
           {/* Calendar */}
-          <div className="flex gap-1">
+          <div className="flex gap-0">
             {/* Day labels */}
-            <div className="flex flex-col justify-around text-[10px] sm:text-xs text-foreground/40 pr-1 sm:pr-2 w-7 sm:w-8">
-              <div>Mon</div>
-              <div>Wed</div>
-              <div>Fri</div>
+            <div className="flex flex-col justify-around text-[10px] sm:text-xs text-dos-bright-black pr-1 w-6 sm:w-8">
+              <div>Mo</div>
+              <div>We</div>
+              <div>Fr</div>
             </div>
 
             {/* Contribution grid */}
-            <div className="flex gap-[3px] flex-1">
+            <div className="flex gap-0 flex-1 leading-none" style={{ fontSize: "10px" }}>
               {weeks.map((week, weekIndex) => (
-                <div key={weekIndex} className="flex flex-col gap-[3px]">
-                  {/* Pad the first week if it doesn't start on Sunday */}
+                <div key={weekIndex} className="flex flex-col gap-0">
                   {weekIndex === 0 &&
                     Array.from({
                       length: parseDate(week.days[0].date).getDay(),
                     }).map((_, i) => (
                       <div
                         key={`pad-${i}`}
-                        className="w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-sm"
+                        className="w-[10px] h-[10px] sm:w-[11px] sm:h-[11px]"
                       />
                     ))}
 
@@ -265,31 +245,17 @@ export default function GitHubCalendar({ username }: { username: string }) {
                       month: "short",
                       day: "numeric",
                     });
+                    const titleText = `${day.count} contribution${day.count !== 1 ? "s" : ""} on ${formattedDate}`;
 
                     return (
-                      <HoverCard key={dayIndex} openDelay={200}>
-                        <HoverCardTrigger asChild>
-                          <div
-                            className={`w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-sm ${getColor(
-                              day.level
-                            )} hover:ring-2 hover:ring-green-400/50 transition-all cursor-pointer`}
-                          />
-                        </HoverCardTrigger>
-                        <HoverCardContent
-                          className="w-auto p-3 bg-slate-900/95 backdrop-blur-md border-white/10"
-                          side="top"
-                        >
-                          <div className="space-y-1">
-                            <p className="text-sm font-medium text-foreground">
-                              {day.count} contribution
-                              {day.count !== 1 ? "s" : ""}
-                            </p>
-                            <p className="text-xs text-foreground/60">
-                              {formattedDate}
-                            </p>
-                          </div>
-                        </HoverCardContent>
-                      </HoverCard>
+                      <div
+                        key={dayIndex}
+                        className={`w-[10px] h-[10px] sm:w-[11px] sm:h-[11px] flex items-center justify-center cursor-default ${BLOCK_COLORS[day.level]} hover:text-dos-bright-white`}
+                        title={titleText}
+                        style={{ fontSize: "10px", lineHeight: 1 }}
+                      >
+                        {BLOCK_CHARS[day.level]}
+                      </div>
                     );
                   })}
                 </div>
@@ -298,16 +264,16 @@ export default function GitHubCalendar({ username }: { username: string }) {
           </div>
 
           {/* Legend */}
-          <div className="flex items-center gap-2 mt-4 text-xs text-foreground/40">
+          <div className="flex items-center gap-1 mt-3 text-xs text-dos-bright-black">
             <span>Less</span>
-            <div className="flex gap-[3px]">
+            <div className="flex gap-0" style={{ fontSize: "10px" }}>
               {[0, 1, 2, 3, 4].map((level) => (
-                <div
+                <span
                   key={level}
-                  className={`w-[10px] h-[10px] sm:w-3 sm:h-3 rounded-sm ${getColor(
-                    level
-                  )}`}
-                />
+                  className={`w-[11px] h-[11px] inline-flex items-center justify-center ${BLOCK_COLORS[level]}`}
+                >
+                  {BLOCK_CHARS[level]}
+                </span>
               ))}
             </div>
             <span>More</span>
